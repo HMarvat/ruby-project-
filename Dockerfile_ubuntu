@@ -1,0 +1,35 @@
+From ubuntu:20.04
+COPY apt.conf /etc/apt/apt.conf
+RUN apt update
+RUN mkdir -p /haroon
+COPY . /haroon
+RUN echo "nameserver 8.8.8.8" >> /etc/resolv.conf
+RUN apt-get -y install build-essential
+RUN apt-get -y install libssl-dev zlib1g-dev sqlite3 libsqlite3-dev
+RUN apt-get -y install git curl
+#RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash
+RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
+RUN echo "deb https://deb.nodesource.com/node_14.x focal main" >> /etc/apt/sources.list.d/nodesource.list
+RUN echo "deb-src https://deb.nodesource.com/node_14.x focal main" >> /etc/apt/sources.list.d/nodesource.list
+ARG DEBIAN_FRONTEND=noninteractive
+ENV TZ=Asia/Karachi
+RUN apt-get install -y tzdata
+RUN apt-get -y install nodejs
+#RUN curl -fsSL https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+#RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+RUN apt-get update && sudo apt-get -y install yarn
+RUN curl -fsSL https://github.com/rbenv/rbenv-installer/raw/HEAD/bin/rbenv-installer | bash
+RUN echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
+RUN echo 'eval "$(rbenv init - bash)"' >> ~/.bashrc
+RUN exec $SHELL
+RUN curl -fsSL https://github.com/rbenv/rbenv-installer/raw/HEAD/bin/rbenv-doctor | bash
+RUN Checking for `rbenv' in PATH: /home/user/.rbenv/bin/rbenv
+RUN Checking for rbenv shims in PATH: OK
+RUN rbenv install -l
+RUN rbenv install 2.7.1 -v
+RUN rbenv global 3.0.2
+RUN gem install bundler:2.2.26
+RUN gem install rails
+
+EXPOSE 3000
+CMD ["rails", "server", "-b", "0.0.0.0"]

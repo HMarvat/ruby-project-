@@ -366,7 +366,7 @@ DEPENDENCIES
   faker
   letter_opener_web
   listen (~> 3.3)
-  pg (>= 0.18, < 2.0)
+  pg
   puma (~> 4.1)
   pundit
   rack-cors

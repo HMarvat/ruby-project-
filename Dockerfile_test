@@ -1,0 +1,22 @@
+FROM ruby:2.5
+COPY apt.conf /etc/apt/apt.conf
+RUN apt-get update -qq && apt-get install -y nodejs postgresql-client
+
+ENV DATABASE_HOST=db
+ENV DATABASE_USERNAME=postgres
+ENV DATABASE_PASSWORD=password
+
+RUN mkdir /app
+WORKDIR /app
+
+COPY Gemfile /app
+COPY Gemfile.lock /app
+RUN gem bundle install
+
+#COPY entrypoint.sh /usr/bin/
+RUN chmod +x /usr/bin/entrypoint.sh
+#ENTRYPOINT ["entrypoint.sh"]
+EXPOSE 3000
+
+# Configure the main process to run when running the image
+CMD ["rails", "server", "-b", "0.0.0.0"]
