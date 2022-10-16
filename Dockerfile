@@ -8,8 +8,8 @@ RUN echo "precedence  2002::/16       30" >> /etc/gai.conf
 RUN echo "precedence  ::/96           20" >> /etc/gai.conf
 RUN echo "precedence  ::ffff:0:0/96   10" >> /etc/gai.conf
 RUN echo "precedence  2a04:4e42::0/32  5" >> /etc/gai.conf
-ENV http_proxy=http://aqib:12345@192.168.13.10:3128
-ENV https_proxy=http://aqib:12345@192.168.13.10:3128
+#ENV http_proxy=http://aqib:12345@192.168.13.10:3128
+#ENV https_proxy=http://aqib:12345@192.168.13.10:3128
 COPY Gemfile Gemfile.lock ./
 COPY . .
 RUN gem install rails
