@@ -1,0 +1,21 @@
+From ubuntu:18.04
+COPY apt.conf /etc/apt/apt.conf
+ENV http_proxy=http://aqib:12345@192.168.13.10:3128
+ENV https_proxy=http://aqib:12345@192.168.13.10:3128
+RUN apt -y update
+RUN apt-get install git -y
+RUN apt-get install gcc -y
+RUN git clone https://github.com/rbenv/rbenv.git ~/.rbenv
+RUN echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
+RUN echo 'eval "$(rbenv init -)"' >> ~/.bashrc
+RUN exec $SHELL
+RUN git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)"/plugins/ruby-build
+RUN rbenv install 2.7.1
+RUN gem  install rails
+COPY . /
+RUN gem install bundler:2.2.26
+RUN bundle config unset frozen
+RUN bundle install
+
+EXPOSE 3000
+CMD ["rails", "server", "-b", "0.0.0.0"]

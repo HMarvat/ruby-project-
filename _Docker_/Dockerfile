@@ -1,0 +1,25 @@
+FROM ruby:2.7.1
+COPY apt.conf /etc/apt/apt.conf
+RUN apt-get update && apt-get install -y apt-utils && apt-get install -y curl && apt-get install -y nodejs
+RUN mkdir /app
+WORKDIR /app
+
+COPY Gemfile /app
+#RUN bundle update --ruby
+#RUN bundle install
+RUN curl -fsSL https://github.com/rbenv/rbenv-installer/raw/HEAD/bin/rbenv-doctor | bash
+RUN Checking for `rbenv' in PATH: /home/prtg/.rbenv/bin/rbenv
+RUN rbenv install -l
+RUN rbenv global 3.0.2
+RUN rbenv install 2.7.1 -v
+RUN gem install bundler
+RUN gem install rails
+RUN gem install bundler:2.2.26
+RUN bundle install
+
+COPY . /app
+EXPOSE 3000
+CMD ["rails", "server", "-b", "0.0.0.0"]
+ 
+
+

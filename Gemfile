@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 #source 'http://www.rubygems.org'
-source 'https://rubygems.org'
+source 'http://rubygems.org'
+#source 'http://rubygems.org/latest_specs.4.8.gz'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.7.1'
@@ -61,4 +62,4 @@ gem 'dotenv-rails'
 gem 'letter_opener_web'
 gem 'pundit'
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: %i(mingw mswin x64_mingw jruby)
+#gem 'tzinfo-data', platforms: %i(mingw mswin x64_mingw jruby)
